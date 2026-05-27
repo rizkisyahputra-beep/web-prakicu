@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Cuaca BMKG Full</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=times new roman:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="panel-input">
+        <h2>Input Data Cuaca Harian</h2>
+        
+        <label>Hari:</label>
+        <input type="text" id="inHari" value="Selasa">
+        
+        <label>Tanggal Berlaku:</label>
+        <input type="text" id="inTanggal" value="13 MEI 2026">
+        
+        <label>Kondisi Cuaca Umum (Untuk Narasi):</label>
+        <input type="text" id="inUmum" value="berawan">
+
+        <label>Potensi Hujan (Untuk Narasi):</label>
+        <select id="inHujan">
+            <option value="ringan">Ringan</option>
+            <option value="sedang">Sedang</option>
+            <option value="lebat">Lebat</option>
+            <option value="">Tidak Ada Hujan (Kosongkan)</option>
+        </select>
+
+        <hr style="border-color: #555; margin: 20px 0;">
+
+        <label>Cuaca Pagi:</label>
+        <select id="inCuacaPagi">
+            <option value="Berawan">Berawan</option>
+            <option value="Cerah">Cerah</option>
+            <option value="Cerah_Berawan">Cerah Berawan</option>
+            <option value="Hujan_Ringan">Hujan Ringan</option>
+            <option value="Hujan_Sedang">Hujan Sedang</option>
+            <option value="Hujan_Lebat">Hujan Lebat</option>
+            <option value="Hujan_Lokal">Hujan Lokal</option>
+            <option value="Kabut">Kabut</option>
+        </select>
+
+        <label>Cuaca Siang:</label>
+        <select id="inCuacaSiang">
+            <option value="Hujan_Ringan">Hujan Ringan</option>
+            <option value="Berawan">Berawan</option>
+            <option value="Cerah">Cerah</option>
+            <option value="Cerah_Berawan">Cerah Berawan</option>
+            <option value="Hujan_Sedang">Hujan Sedang</option>
+            <option value="Hujan_Lebat">Hujan Lebat</option>
+            <option value="Hujan_Lokal">Hujan Lokal</option>
+            <option value="Kabut">Kabut</option>
+        </select>
+
+        <label>Cuaca Malam:</label>
+        <select id="inCuacaMalam">
+            <option value="Hujan_Lokal_Malam">Hujan Lokal</option>
+            <option value="Hujan_Ringan">Hujan Ringan</option>
+            <option value="Hujan_Sedang">Hujan Sedang</option>
+            <option value="Hujan_Lebat">Hujan Lebat</option>
+            <option value="Berawan_Malam">Berawan</option>
+            <option value="Cerah_Malam">Cerah</option>
+            <option value="Cerah_Berawan_Malam">Cerah Berawan</option>
+            <option value="Kabut_Malam">Kabut</option>
+        </select>
+
+        <label>Cuaca Dini Hari:</label>
+        <select id="inCuacaDiniHari">
+            <option value="Berawan_Malam">Berawan</option>
+            <option value="Hujan_Lokal_Malam">Hujan Lokal</option>
+            <option value="Hujan_Ringan">Hujan Ringan</option>
+            <option value="Hujan_Sedang">Hujan Sedang</option>
+            <option value="Hujan_Lebat">Hujan Lebat</option>
+            <option value="Cerah_Malam">Cerah</option>
+            <option value="Cerah_Berawan_Malam">Cerah Berawan</option>
+            <option value="Kabut_Malam">Kabut</option>
+        </select>
+
+        <hr style="border-color: #555; margin: 20px 0;">
+
+        <label>Suhu Udara (°C):</label>
+        <div style="display: flex; gap: 10px;">
+            <input type="text" id="inSuhuMin" value="24" placeholder="Min">
+            <input type="text" id="inSuhuMax" value="30" placeholder="Max">
+        </div>
+
+        <label>Kelembapan (%):</label>
+        <div style="display: flex; gap: 10px;">
+            <input type="text" id="inLembapMin" value="60" placeholder="Min">
+            <input type="text" id="inLembapMax" value="95" placeholder="Max">
+        </div>
+        
+        <label>Arah Angin (Dari - Menuju):</label>
+        <div style="display: flex; gap: 10px;">
+            <input type="text" id="inAnginDari" value="Timur" placeholder="Dari">
+            <input type="text" id="inAnginMenuju" value="Selatan" placeholder="Menuju">
+        </div>
+
+        <label>Kecepatan Angin (KM/JAM):</label>
+        <input type="text" id="inAnginSpeed" value="05 - 20">
+
+        <label>Peringatan Dini:</label>
+        <input type="text" id="inPeringatan" value="NIL">
+
+        <hr style="border-color: #555; margin: 20px 0;">
+
+        <label>Preview Paragraf 1 (Bisa diedit manual):</label>
+        <textarea id="inNarasi1" rows="6"></textarea>
+        
+        <label>Preview Paragraf 2 (Bisa diedit manual):</label>
+        <textarea id="inNarasi2" rows="6"></textarea>
+
+        <button id="btnDownloadGambar" style="background-color: #f39c12; margin-bottom: 10px; margin-top: 20px;">Download Gambar (Slide 2)</button>
+        <button id="btnDownloadPDF" style="background-color: #d35400;">Download 4 Slide (PDF)</button>
+    </div>
+
+    <div class="panel-preview">
+        
+        <div id="slide1" class="slide-cuaca">
+            <img src="Opening.png" class="bg-template">
+        </div>
+
+        <div id="slide2" class="slide-cuaca">
+            <img src="Template_kosong.png" class="bg-template">
+            
+            <div id="outTanggal2" class="teks-absolut" style="top: 11%; left: 15.6%; font-family: 'times new roman', sans-serif; font-size: 20px; font-weight: bold; color: rgb(0, 0, 0);">BERLAKU UNTUK 13 MEI 2026</div>
+            
+            <img id="iconPagi" src="Berawan.png" class="teks-absolut" style="top: 24%; left: 11%; width: 11%;">
+            <div id="teksPagi" class="teks-absolut" style="top: 41%; left: 6%; width: 20%; text-align: center; font-family: 'times new roman', sans-serif; font-size: 18px; color: red; font-weight: bold;">BERAWAN</div>
+
+            <img id="iconSiang" src="Hujan_Ringan.png" class="teks-absolut" style="top: 24%; left: 35.5%; width: 11%;">
+            <div id="teksSiang" class="teks-absolut" style="top: 41%; left: 30%; width: 20%; text-align: center; font-family: 'times new roman', sans-serif; font-size: 18px; color: red; font-weight: bold;">HUJAN RINGAN</div>
+
+            <img id="iconMalam" src="Hujan_Lokal_Malam.png" class="teks-absolut" style="top: 52%; left: 11%; width: 11%;">
+            <div id="teksMalam" class="teks-absolut" style="top: 69%; left: 6%; width: 20%; text-align: center; font-family: 'times new roman', sans-serif; font-size: 18px; color: red; font-weight: bold;">HUJAN LOKAL</div>
+
+            <img id="iconDiniHari" src="Berawan_Malam.png" class="teks-absolut" style="top: 52%; left: 35.5%; width: 11%;">
+            <div id="teksDiniHari" class="teks-absolut" style="top: 69%; left: 30%; width: 20%; text-align: center; font-family: 'times new roman', sans-serif; font-size: 18px; color: red; font-weight: bold;">BERAWAN</div>
+
+            <div id="outSuhu" class="teks-absolut" style="top: 25%; left: 65%; font-weight: bold; font-family: 'times new roman', sans-serif; font-size: 20px;">24 - 30°</div>
+            <div id="outLembap" class="teks-absolut" style="top: 32%; left: 65%; font-weight: bold; font-family: 'times new roman', sans-serif; font-size: 20px;">60 - 95%</div>
+            <div id="outAngin" class="teks-absolut" style="top: 42%; left: 65%; width: 25%; text-align: center; font-weight: bold; font-size: 18px; line-height: 1.5;">TIMUR - SELATAN<br>05 - 20 KM/JAM</div>
+            <div id="outPeringatan" class="teks-absolut" style="top: 60%; left: 62%; width: 30%; text-align: center; color: black;  font-family: 'times new roman', sans-serif; font-weight: bold; font-size: 12px;">NIL</div>
+        </div>
+
+        <div id="slide3" class="slide-cuaca">
+            <img src="Template_Narasi.png" class="bg-template">
+            
+            #<div id="outTanggal3" class="teks-absolut" style="top: 11%; left: 15.6%; font-family: 'times new roman', sans-serif; font-size: 20px; font-weight: bold; color: rgb(0, 0, 0);">BERLAKU UNTUK 13 MEI 2026</div>
+            
+            <div id="outNarasi1" class="teks-absolut" style="top: 24%; left: 9%; width: 80%; color: black; font-family: 'times new roman', sans-serif; font-size: 19px; line-height: 1.6; text-align: justify;"></div>
+            
+            <div id="outNarasi2" class="teks-absolut" style="top: 60%; left: 9%; width: 80%; color: black; font-family: 'times new roman', sans-serif; font-size: 19px; line-height: 1.6; text-align: justify;"></div>
+        </div>
+
+        <div id="slide4" class="slide-cuaca">
+            <img src="Ending.png" class="bg-template">
+        </div>
+
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
